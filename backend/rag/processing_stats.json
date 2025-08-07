@@ -1,0 +1,27 @@
+{
+  "total_urls_found": 1222,
+  "relevant_urls_found": 1222,
+  "successfully_processed": 1204,
+  "failed_urls": [
+    "https://www.cancerresearchuk.org/get-involved/find-an-event/skipping-challenge/fundraising-materials/thank-you-for-voting-on-our-poll",
+    "https://www.cancerresearchuk.org/get-involved/ways-to-shop/salford-superstore",
+    "https://news.cancerresearchuk.org/for-supporters/",
+    "https://www.cancerresearchuk.org/get-involved/find-an-event/charity-walks/relay-for-life/taking-part-in-relay-for-life",
+    "https://www.cancerresearchuk.org/get-involved/donate",
+    "https://news.cancerresearchuk.org/",
+    "https://www.cancerresearchuk.org/funding-for-researchers/how-we-deliver-research/grand-challenge-award/teams",
+    "https://www.cancerresearchuk.org/get-involved/donate/",
+    "https://www.cancerresearchuk.org/health-professional/diagnosis/early-diagnosis-initiative/early-diagnosis-research-conferences/cruk-early-diagnosis-research-virtual-events",
+    "https://www.cancerresearchuk.org/get-involved/ways-to-shop/marylebone",
+    "https://www.cancerresearchuk.org/rss.xml",
+    "https://www.cancerresearchuk.org/get-involved/ways-to-shop/holyhead-superstore",
+    "https://www.cancerresearchuk.org/content/lung-cancer-mortality-by-gender-and-uk-country",
+    "https://www.cancerresearchuk.org/get-involved/find-an-event/charity-walks/relay-for-life/donate-to-relay-for-life",
+    "https://www.cancerresearchuk.org/get-involved/find-an-event/charity-walks/relay-for-life/what-is-relay-for-life",
+    "https://flowershop.cancerresearchuk.org/",
+    "https://www.cancerresearchuk.org/funding-for-researchers/how-we-deliver-research/grand-challenge-award/how-to-apply",
+    "https://news.cancerresearchuk.org/for-researchers/"
+  ],
+  "final_embedded_count": 2567,
+  "timestamp": 1753528877.9140449
+}
