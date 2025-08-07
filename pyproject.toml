@@ -1,0 +1,10 @@
+# backend/pyproject.toml
+[project]
+name = "medhelp-chatbot"
+version = "0.0.1"
+requires-python = ">=3.12"
+
+[tool.uv]  # uv-specific settings (empty is fine)
+
+[project.optional-dependencies]
+dev = ["ruff", "pytest", "pytest-asyncio", "pre-commit"]
