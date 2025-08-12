@@ -1,0 +1,158 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop, staging ]
+  pull_request:
+    branches: [ main, develop, staging ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Frontend Testing & Build
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm ci
+    
+    - name: Run tests
+      working-directory: ./frontend
+      run: npm test --if-present
+    
+    - name: Build frontend
+      working-directory: ./frontend
+      run: npm run build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build
+        path: frontend/dist/
+        retention-days: 1
+
+  # Backend Testing
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run tests
+      working-directory: ./backend
+      run: |
+        python -m pytest tests/ --cov=app --cov-report=xml || true
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./backend/coverage.xml
+        fail_ci_if_error: false
+
+  # Deploy to Staging (on develop branch)
+  deploy-staging:
+    needs: [frontend, backend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download frontend build
+      uses: actions/download-artifact@v4
+      with:
+        name: frontend-build
+        path: frontend/dist/
+    
+    - name: Deploy to staging
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.STAGING_HOST }}
+        username: ${{ secrets.STAGING_USERNAME }}
+        key: ${{ secrets.STAGING_SSH_KEY }}
+        script: |
+          cd /home/ubuntu/kyra
+          git pull origin develop
+          cd frontend && npm ci && npm run build
+          sudo rm -rf /var/www/kyra-staging/*
+          sudo cp -r dist/* /var/www/kyra-staging/
+          sudo chown -R www-data:www-data /var/www/kyra-staging/
+          sudo chmod -R 755 /var/www/kyra-staging/
+          cd ../backend
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pm2 restart ecosystem-staging.config.js
+          sudo systemctl reload nginx
+
+  # Deploy to Production (on main branch)
+  deploy-production:
+    needs: [frontend, backend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download frontend build
+      uses: actions/download-artifact@v4
+      with:
+        name: frontend-build
+        path: frontend/dist/
+    
+    - name: Deploy to production
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.PRODUCTION_HOST }}
+        username: ${{ secrets.PRODUCTION_USERNAME }}
+        key: ${{ secrets.PRODUCTION_SSH_KEY }}
+        script: |
+          cd /home/ubuntu/kyra
+          git pull origin main
+          cd frontend && npm ci && npm run build
+          sudo rm -rf /var/www/kyra/*
+          sudo cp -r dist/* /var/www/kyra/
+          sudo chown -R www-data:www-data /var/www/kyra/
+          sudo chmod -R 755 /var/www/kyra/
+          cd ../backend
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pm2 restart ecosystem.config.js
+          sudo systemctl reload nginx
+
+  # Health Check
+  health-check:
+    needs: [deploy-staging, deploy-production]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Check staging health
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        curl -f https://staging.kyrahealth.ai/health || exit 1
+    
+    - name: Check production health
+      if: github.ref == 'refs/heads/main'
+      run: |
+        curl -f https://kyrahealth.ai/health || exit 1 
