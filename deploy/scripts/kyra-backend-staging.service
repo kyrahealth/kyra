@@ -1,0 +1,16 @@
+[Unit]
+Description=Kyra Backend Staging
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/kyra/backend
+Environment=PATH=/home/ubuntu/kyra/backend/.venv/bin
+ExecStart=/home/ubuntu/kyra/backend/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8002
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
