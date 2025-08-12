@@ -10,7 +10,7 @@ interface Session {
 interface SessionSidebarProps {
   sessions: Session[]
   currentSessionId: string | null
-  onSessionSelect: (sessionId: string) => void
+  onSessionSelect: (sessionId: string | null) => void
   onNewSession: () => void
   onSessionsReload: () => void
 }

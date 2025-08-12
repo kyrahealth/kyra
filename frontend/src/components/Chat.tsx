@@ -29,7 +29,6 @@ interface ChatProps {
 function Chat({ onLogout, token }: ChatProps) {
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState<Message[]>([])
-  const [location, setLocation] = useState("")
   const [loading, setLoading] = useState(false)
   const [loadingSession, setLoadingSession] = useState(false)
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null)
@@ -108,7 +107,7 @@ function Chat({ onLogout, token }: ChatProps) {
     console.log(`[DEBUG] Sending message with session_id: ${currentSessionId}`)
     
     try {
-      const data = await chatApi.sendMessage(userMessage, location, currentSessionId || undefined)
+      const data = await chatApi.sendMessage(userMessage, undefined, currentSessionId || undefined)
       
       console.log(`[DEBUG] Response session_id: ${data.session_id}`)
       

@@ -1,20 +1,8 @@
-import MessageList from './MessageList'
-
-interface Message {
-  id?: string
-  text: string
-  type: 'user' | 'kyra' | 'error'
-  sources?: string[]
-  metadata?: {
-    used_rag?: boolean
-  }
-}
-
 interface SourceModalProps {
   isOpen: boolean
   url: string
   title: string
-  messages: Message[]
+  messages: any[]
   currentSessionId: string | null
   onClose: () => void
   onLinkClick: (url: string, title: string) => void
@@ -26,8 +14,7 @@ function SourceModal({
   title, 
   messages, 
   currentSessionId, 
-  onClose, 
-  onLinkClick 
+  onClose
 }: SourceModalProps) {
   if (!isOpen) return null
 
