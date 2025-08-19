@@ -52,6 +52,8 @@ export const chatApi = {
       }
     }),
 
+
+
   getSessions: () =>
     apiRequest("/chat/sessions"),
 

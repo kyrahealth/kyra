@@ -113,6 +113,20 @@ function Login({ onAuth }: LoginProps) {
         <p className="login-subtitle">
           {isSignUp ? "Create your account to get started" : "Sign in to continue"}
         </p>
+        
+        {/* Test Environment Disclaimer */}
+        <div className="disclaimer-box">
+          <h3 className="disclaimer-title">⚠️ Test Environment Disclaimer</h3>
+          <div className="disclaimer-content">
+            <p><strong>Welcome to the Kyra test environment.</strong> Please read the following disclaimer carefully before entering this platform:</p>
+            <ol>
+              <li><strong>Non-Personal Data Usage:</strong> This test environment is intended for demonstration purposes only. Users must not input any personal, sensitive, or confidential information. All scenarios and data entered should be entirely fictional.</li>
+              <li><strong>Liability:</strong> The Kyra test environment is a prototype and not a fully developed product. Kyra is not liable for any outcomes, decisions, or actions taken based on the use of this test environment. Users acknowledge that the system is in a developmental stage and may contain errors or inaccuracies.</li>
+              <li><strong>Data Privacy:</strong> Any data entered into the Kyra test environment will not be stored, processed, or used for any purpose other than testing the functionalities of the prototype. Users are responsible for ensuring that no personal data is entered.</li>
+            </ol>
+            <p><em>By entering the Kyra test environment, you agree to comply with these terms and understand the limitations and intended use of this platform.</em></p>
+          </div>
+        </div>
 
         {error && (
           <div className="error-box">

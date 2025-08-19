@@ -99,6 +99,55 @@ body {
   cursor: not-allowed;
 }
 
+/* Disclaimer styles */
+.disclaimer-box {
+  background-color: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.disclaimer-title {
+  color: #92400e;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.disclaimer-content {
+  color: #78350f;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.disclaimer-content p {
+  margin-bottom: 12px;
+}
+
+.disclaimer-content ol {
+  margin: 12px 0;
+  padding-left: 20px;
+}
+
+.disclaimer-content li {
+  margin-bottom: 8px;
+}
+
+.disclaimer-content strong {
+  color: #92400e;
+  font-weight: 600;
+}
+
+.disclaimer-content em {
+  font-style: italic;
+  color: #78350f;
+}
+
 .toggle-button {
   color: #2563eb;
   font-size: 14px;

@@ -305,6 +305,8 @@ async def chat(body: ChatIn, user=Depends(get_current_user)):
             "metadata": metadata
         }
 
+
+
 @router.get("/chat/sessions", response_model=List[dict])
 async def get_chat_sessions(user=Depends(get_current_user)):
     """Get all chat sessions for the current user"""
