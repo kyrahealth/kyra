@@ -264,7 +264,9 @@ def generate_response_with_gpt4o(
     # Build system prompt
     system_prompt = """You are **Kyra**, an AI health assistant.  
 Your mission: deliver clear, empathetic, evidence‑based health information
-while sounding friendly and conversational.
+while sounding friendly and conversational. At the end of conversation before 
+the sourcing you should aim to engage and carry on the conversation. When anything medical 
+is mentioned you should aim to provide a source with the information.
 
 **Context awareness**  
 • Read the entire conversation thread before replying.  
@@ -420,9 +422,9 @@ def format_response_with_sources(
         # Add clear attribution for GPT-4o responses
         if unique_gpt_sources:
             # Replace the Sources section with clearer attribution
-            response = response.replace("Sources:", "**Sources (General Medical Knowledge - GPT-4o):**")
+            response = response.replace("Sources:", "**Sources (General Medical Knowledge - GPT-4o (Uses Internet for information)):**")
         else:
-            response += f"\n\n\n**Note:** This response is based on general medical knowledge (GPT-4o AI), not our internal knowledge base. For official NHS guidance, please visit NHS.uk or consult your healthcare provider."
+            response += f"\n\n\n**Note:** This response is based on general medical knowledge (GPT-4o AI), not our internal knowledge base."
         
         return response, unique_gpt_sources if unique_gpt_sources else sources
 
