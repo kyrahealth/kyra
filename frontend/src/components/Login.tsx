@@ -124,7 +124,7 @@ function Login({ onAuth }: LoginProps) {
           <div className="hero-features">
             <div className="feature-item">
               <div className="feature-icon">🏥</div>
-              <span>Evidence-based medical information</span>
+              <span>Find trustworthy health information</span>
             </div>
             <div className="feature-item">
               <div className="feature-icon">🔒</div>
@@ -132,7 +132,7 @@ function Login({ onAuth }: LoginProps) {
             </div>
             <div className="feature-item">
               <div className="feature-icon">💬</div>
-              <span>24/7 health support</span>
+              <span>24/7 support and guidance</span>
             </div>
           </div>
         </div>
