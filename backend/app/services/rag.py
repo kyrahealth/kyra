@@ -307,6 +307,9 @@ Use them to support your answer and cite them explicitly when quoted.
 
 Blend these passages with your broader medical knowledge; do not rely on them
 exclusively.
+
+**IMPORTANT**: Since you are using specific retrieved information from Kyra's knowledge base, 
+always end your response with "Source: Kyra" before any other sources.
 """
     # ---------- Medical query but no RAG ----------
     elif is_medical:
@@ -323,6 +326,10 @@ Sources:
     # Always inject user context for medical queries
     if is_medical and user_context:
         system_prompt += f"\n\n**User background/context:**\n{user_context}\n"
+    
+    # Add clarification about when to use "Source: Kyra"
+    if is_medical and not rag_context:
+        system_prompt += "\n\n**IMPORTANT**: Since you are NOT using Kyra's specific knowledge base for this response, do NOT say 'Source: Kyra'. Only list the general medical sources."
 
     # Prepare messages for GPT-4o - include conversation history + current message
     gpt_messages = [{"role": "system", "content": system_prompt}]
@@ -368,7 +375,7 @@ def format_response_with_sources(
         
         # Add source section to response text
         if unique_sources:
-            response += f"\n\n**Sources (Kyra's Knowledge Base):**\n"
+            response += f"\n\n**Source: Kyra**\n**Sources (Kyra's Knowledge Base):**\n"
             for source in unique_sources:
                 if source.startswith('http://') or source.startswith('https://'):
                     # Make URLs clickable in markdown
