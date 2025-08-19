@@ -148,6 +148,46 @@ body {
   color: #78350f;
 }
 
+/* New collapsible disclaimer footer styles */
+.disclaimer-footer {
+  margin-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.disclaimer-toggle {
+  background-color: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: #92400e;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.disclaimer-toggle:hover {
+  background-color: #fde68a;
+  border-color: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.disclaimer-footer .disclaimer-content {
+  background-color: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .toggle-button {
   color: #2563eb;
   font-size: 14px;
