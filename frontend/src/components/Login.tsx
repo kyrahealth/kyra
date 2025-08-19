@@ -107,181 +107,211 @@ function Login({ onAuth }: LoginProps) {
     setConfirmPassword("")
   }
 
-  return (
+    return (
     <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Kyra Health Assistant</h1>
-        <p className="login-subtitle">
-          {isSignUp ? "Create your account to get started" : "Sign in to continue"}
-        </p>
-        
-
-
-        {error && (
-          <div className="error-box">
-            {error}
+      {/* Left side - Kyra Description */}
+      <div className="login-hero">
+        <div className="hero-content">
+          <div className="hero-logo">
+            <div className="hero-avatar">K</div>
+            <h1 className="hero-title">Kyra</h1>
           </div>
-        )}
-
-        <div className="login-form">
-          <input 
-            className="form-input"
-            placeholder="Email address" 
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-          />
-          <input 
-            className="form-input"
-            type="password" 
-            placeholder="Password"
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-          />
-          {isSignUp && (
-            <>
-              <input 
-                className="form-input"
-                type="password" 
-                placeholder="Confirm Password"
-                value={confirmPassword} 
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                disabled={loading}
-              />
-              <input
-                className="form-input"
-                type="text"
-                placeholder="Full Name"
-                value={fullName}
-                onChange={e => setFullName(e.target.value)}
-                disabled={loading}
-              />
-              <input
-                className="form-input"
-                type="date"
-                placeholder="Date of Birth"
-                value={dateOfBirth}
-                onChange={e => setDateOfBirth(e.target.value)}
-                disabled={loading}
-              />
-              <select
-                className="form-input"
-                value={gender}
-                onChange={e => setGender(e.target.value)}
-                disabled={loading}
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Non-binary">Non-binary</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-              </select>
-              <select
-                className="form-input"
-                value={sex}
-                onChange={e => setSex(e.target.value)}
-                disabled={loading}
-              >
-                <option value="">Select Sex</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-              <input
-                className="form-input"
-                type="text"
-                placeholder="Country (required)"
-                value={country}
-                onChange={e => setCountry(e.target.value)}
-                disabled={loading}
-                required
-              />
-              <input
-                className="form-input"
-                type="text"
-                placeholder="Full Address (optional)"
-                value={address}
-                onChange={e => setAddress(e.target.value)}
-                disabled={loading}
-              />
-              <select
-                className="form-input"
-                value={ethnicGroup}
-                onChange={e => setEthnicGroup(e.target.value)}
-                disabled={loading}
-              >
-                <option value="">Select Ethnic Group</option>
-                <option value="White">White</option>
-                <option value="Black">Black</option>
-                <option value="Asian">Asian</option>
-                <option value="Mixed">Mixed</option>
-                <option value="Other">Other</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-              </select>
-              <textarea
-                className="form-input"
-                placeholder="Long-term Medical Conditions"
-                value={longTermConditions}
-                onChange={e => setLongTermConditions(e.target.value)}
-                disabled={loading}
-              />
-              <textarea
-                className="form-input"
-                placeholder="Medications"
-                value={medications}
-                onChange={e => setMedications(e.target.value)}
-                disabled={loading}
-              />
-              <label style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={e => setConsent(e.target.checked)}
-                  disabled={loading}
-                  style={{ marginRight: 8 }}
-                />
-                I consent to the storage of my data as described above
-              </label>
-            </>
-          )}
-          <button 
-            className={`form-button ${loading ? 'loading' : ''}`}
-            onClick={isSignUp ? handleSignUp : handleLogin}
-            disabled={loading}
-          >
-            {loading ? "Processing..." : (isSignUp ? "Create Account" : "Sign In")}
-          </button>
+          <h2 className="hero-subtitle">Your AI Health Assistant</h2>
+          <p className="hero-description">
+            Get personalized, evidence-based health information and guidance from Kyra, 
+            powered by advanced AI technology and trusted medical sources.
+          </p>
+          <div className="hero-features">
+            <div className="feature-item">
+              <div className="feature-icon">🏥</div>
+              <span>Evidence-based medical information</span>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">🔒</div>
+              <span>Secure and confidential</span>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">💬</div>
+              <span>24/7 health support</span>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <button 
-          className="toggle-button"
-          onClick={toggleMode}
-          disabled={loading}
-        >
-          {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Create one"}
-        </button>
-        
-        {/* Collapsible Test Environment Disclaimer */}
-        <div className="disclaimer-footer">
-          <button 
-            className="disclaimer-toggle"
-            onClick={() => setDisclaimerExpanded(!disclaimerExpanded)}
-            type="button"
-          >
-            {disclaimerExpanded ? '▼' : '▶'} Test Environment Disclaimer
-          </button>
-          {disclaimerExpanded && (
-            <div className="disclaimer-content">
-              <p><strong>Welcome to the Kyra test environment.</strong> Please read the following disclaimer carefully before entering this platform:</p>
-              <ol>
-                <li><strong>Non-Personal Data Usage:</strong> This test environment is intended for demonstration purposes only. Users must not input any personal, sensitive, or confidential information. All scenarios and data entered should be entirely fictional.</li>
-                <li><strong>Liability:</strong> The Kyra test environment is a prototype and not a fully developed product. Kyra is not liable for any outcomes, decisions, or actions taken based on the use of this test environment. Users acknowledge that the system is in a developmental stage and may contain errors or inaccuracies.</li>
-                <li><strong>Data Privacy:</strong> Any data entered into the Kyra test environment will not be stored, processed, or used for any purpose other than testing the functionalities of the prototype. Users are responsible for ensuring that no personal data is entered.</li>
-              </ol>
-              <p><em>By entering the Kyra test environment, you agree to comply with these terms and understand the limitations and intended use of this platform.</em></p>
+      {/* Right side - Login Form */}
+      <div className="login-form-container">
+        <div className="login-card">
+          <h1 className="login-title">Welcome Back</h1>
+          <p className="login-subtitle">
+            {isSignUp ? "Create your account to get started" : "Sign in to continue"}
+          </p>
+          
+          {error && (
+            <div className="error-box">
+              {error}
             </div>
           )}
+
+          <div className="login-form">
+            <input 
+              className="form-input"
+              placeholder="Email address" 
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
+            />
+            <input 
+              className="form-input"
+              type="password" 
+              placeholder="Password"
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+            />
+            {isSignUp && (
+              <>
+                <input 
+                  className="form-input"
+                  type="password" 
+                  placeholder="Confirm Password"
+                  value={confirmPassword} 
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={loading}
+                />
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Full Name"
+                  value={fullName}
+                  onChange={e => setFullName(e.target.value)}
+                  disabled={loading}
+                />
+                <input
+                  className="form-input"
+                  type="date"
+                  placeholder="Date of Birth"
+                  value={dateOfBirth}
+                  onChange={e => setDateOfBirth(e.target.value)}
+                  disabled={loading}
+                />
+                <select
+                  className="form-input"
+                  value={gender}
+                  onChange={e => setGender(e.target.value)}
+                  disabled={loading}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Non-binary">Non-binary</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+                <select
+                  className="form-input"
+                  value={sex}
+                  onChange={e => setSex(e.target.value)}
+                  disabled={loading}
+                >
+                  <option value="">Select Sex</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Country (required)"
+                  value={country}
+                  onChange={e => setCountry(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Full Address (optional)"
+                  value={address}
+                  onChange={e => setAddress(e.target.value)}
+                  disabled={loading}
+                />
+                <select
+                  className="form-input"
+                  value={ethnicGroup}
+                  onChange={e => setEthnicGroup(e.target.value)}
+                  disabled={loading}
+                >
+                  <option value="">Select Ethnic Group</option>
+                  <option value="White">White</option>
+                  <option value="Black">Black</option>
+                  <option value="Asian">Asian</option>
+                  <option value="Mixed">Mixed</option>
+                  <option value="Other">Other</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+                <textarea
+                  className="form-input"
+                  placeholder="Long-term Medical Conditions"
+                  value={longTermConditions}
+                  onChange={e => setLongTermConditions(e.target.value)}
+                  disabled={loading}
+                />
+                <textarea
+                  className="form-input"
+                  placeholder="Medications"
+                  value={medications}
+                  onChange={e => setMedications(e.target.value)}
+                  disabled={loading}
+                />
+                <label style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={e => setConsent(e.target.checked)}
+                    disabled={loading}
+                    style={{ marginRight: 8 }}
+                  />
+                  I consent to the storage of my data as described above
+                </label>
+              </>
+            )}
+            <button 
+              className={`form-button ${loading ? 'loading' : ''}`}
+              onClick={isSignUp ? handleSignUp : handleLogin}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : (isSignUp ? "Create Account" : "Sign In")}
+            </button>
+          </div>
+
+          <button 
+            className="toggle-button"
+            onClick={toggleMode}
+            disabled={loading}
+          >
+            {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Create one"}
+          </button>
+          
+          {/* Collapsible Test Environment Disclaimer */}
+          <div className="disclaimer-footer">
+            <button 
+              className="disclaimer-toggle"
+              onClick={() => setDisclaimerExpanded(!disclaimerExpanded)}
+              type="button"
+            >
+              {disclaimerExpanded ? '▼' : '▶'} Test Environment Disclaimer
+              </button>
+            {disclaimerExpanded && (
+              <div className="disclaimer-content">
+                <p><strong>Welcome to the Kyra test environment.</strong> Please read the following disclaimer carefully before entering this platform:</p>
+                <ol>
+                  <li><strong>Non-Personal Data Usage:</strong> This test environment is intended for demonstration purposes only. Users must not input any personal, sensitive, or confidential information. All scenarios and data entered should be entirely fictional.</li>
+                  <li><strong>Liability:</strong> The Kyra test environment is a prototype and not a fully developed product. Kyra is not liable for any outcomes, decisions, or actions taken based on the use of this test environment. Users acknowledge that the system is in a developmental stage and may contain errors or inaccuracies.</li>
+                  <li><strong>Data Privacy:</strong> Any data entered into the Kyra test environment will not be stored, processed, or used for any purpose other than testing the functionalities of the prototype. Users are responsible for ensuring that no personal data is entered.</li>
+                </ol>
+                <p><em>By entering the Kyra test environment, you agree to comply with these terms and understand the limitations and intended use of this platform.</em></p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
