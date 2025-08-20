@@ -3,14 +3,19 @@ import axios from 'axios'
 // Since axios is configured globally in App.tsx, we can use it directly
 export async function apiRequest(endpoint: string, options: any = {}) {
   try {
+    console.log(`[DEBUG] API Request to ${endpoint}`, options)
+    
     const response = await axios({
       url: endpoint,
       method: options.method || 'GET',
-      data: options.body ? JSON.parse(options.body) : undefined,
+      data: options.data,
       ...options
     })
+    
+    console.log(`[DEBUG] API Response from ${endpoint}:`, response.data)
     return response.data
   } catch (error: any) {
+    console.error(`[DEBUG] API Request failed for ${endpoint}:`, error)
     // Match the original error format
     throw { response: { data: error.response?.data } }
   }

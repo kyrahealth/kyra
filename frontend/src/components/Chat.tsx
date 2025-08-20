@@ -41,16 +41,22 @@ function Chat({ onLogout, token }: ChatProps) {
   // Load sessions only after login (when token is present)
   useEffect(() => {
     if (!token) return;
-    loadSessionsAndLatest();
-    // loadCategories removed
+    
+    // Add a small delay to ensure token is properly set in axios headers
+    const timer = setTimeout(() => {
+      loadSessionsAndLatest();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [token])
 
   // loadCategories function removed
 
   const loadSessionsAndLatest = async () => {
     try {
+      console.log('[DEBUG] Loading sessions with token:', token ? 'present' : 'missing');
       const data = await chatApi.getSessions()
-      console.log(`[DEBUG] Loaded ${data.length} sessions`)
+      console.log(`[DEBUG] Loaded ${data.length} sessions:`, data)
       setSessions(data)
       
       // Auto-load the most recent session if it exists
@@ -60,6 +66,11 @@ function Chat({ onLogout, token }: ChatProps) {
       }
     } catch (error) {
       console.error("Failed to load sessions:", error)
+      // Retry once after a short delay
+      setTimeout(() => {
+        console.log('[DEBUG] Retrying session load...');
+        loadSessionsAndLatest();
+      }, 1000);
     }
   }
 
