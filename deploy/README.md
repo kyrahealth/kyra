@@ -1,10 +1,7 @@
-# 🚀 Kyra Health Assistant - Deployment & CI/CD
+# Kyra Deployment Guide
 
-This directory contains everything needed to deploy and manage your Kyra Health Assistant across multiple environments with automated CI/CD.
-
-## 🌍 Environment Structure
-
-- **Production**: `https://kyrahealth.ai` (Port 8001)
+## Environment Overview
+- **Production**: `https://demo.kyrahealth.ai` (Port 8001)
 - **Staging**: `https://staging.kyrahealth.ai` (Port 8002)
 - **Development**: `https://dev.kyrahealth.ai` (Port 8003)
 
@@ -57,7 +54,7 @@ TTL: 300
 
 ```bash
 # Get SSL certificates for staging and dev
-sudo certbot --nginx -d staging.kyrahealth.ai -d dev.kyrahealth.ai
+sudo certbot --nginx -d demo.kyrahealth.ai -d staging.kyrahealth.ai -d dev.kyrahealth.ai
 ```
 
 ### 4. Start Backend Services

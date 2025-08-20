@@ -155,4 +155,4 @@ jobs:
     - name: Check production health
       if: github.ref == 'refs/heads/main'
       run: |
-        curl -f https://kyrahealth.ai/health || exit 1 
+        curl -f https://demo.kyrahealth.ai/healthz || exit 1 

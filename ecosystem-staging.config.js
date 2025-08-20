@@ -1,10 +1,10 @@
 module.exports = {
   apps: [{
     name: 'kyra-backend-staging',
-    script: '/home/ubuntu/kyra/backend/.venv/bin/python3',
-    args: '-m uvicorn app.main:app --host 0.0.0.0 --port 8002',
+    script: 'uvicorn',
+    args: 'app.main:app --host 0.0.0.0 --port 8002',
     cwd: '/home/ubuntu/kyra/backend',
-    interpreter: '/home/ubuntu/kyra/backend/.venv/bin/python3',
+    interpreter: '/home/ubuntu/kyra/backend/.venv/bin/python',
     instances: 1,
     autorestart: true,
     watch: false,

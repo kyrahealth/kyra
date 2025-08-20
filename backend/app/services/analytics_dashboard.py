@@ -12,9 +12,9 @@ st.set_page_config(page_title="Analytics Dashboard", layout="wide")
 st.title("Kyra Analytics Dashboard")
 
 try:
-    API_URL = st.secrets.get("API_URL", "https://kyrahealth.ai/api/v1/admin/analytics")
+    API_URL = st.secrets.get("API_URL", "https://demo.kyrahealth.ai/api/v1/admin/analytics")
 except:
-    API_URL = "https://kyrahealth.ai/api/v1/admin/analytics"
+    API_URL = "https://demo.kyrahealth.ai/api/v1/admin/analytics"
 
 # --- Authentication ---
 def login_form():
@@ -24,14 +24,14 @@ def login_form():
     login_btn = st.sidebar.button("Login")
     if login_btn:
         resp = requests.post(
-            "https://kyrahealth.ai/api/v1/auth/login",
+            "https://demo.kyrahealth.ai/api/v1/auth/login",
             json={"email": email, "password": password}
         )
         if resp.status_code == 200:
             token = resp.json()["access_token"]
             # Check if user is admin
             me = requests.get(
-                "https://kyrahealth.ai/api/v1/auth/me",
+                "https://demo.kyrahealth.ai/api/v1/auth/me",
                 headers={"Authorization": f"Bearer {token}"}
             )
             if me.status_code == 200 and me.json().get("is_admin"):

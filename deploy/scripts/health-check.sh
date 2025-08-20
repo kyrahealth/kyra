@@ -128,7 +128,7 @@ echo ""
 # Check endpoints
 echo "🌐 Endpoint Health:"
 echo "-------------------"
-check_endpoint "https://kyrahealth.ai" "Production" && ((healthy++)) || true
+check_endpoint "https://demo.kyrahealth.ai/healthz" "Production" && ((healthy++)) || true
 ((total++))
 check_endpoint "https://staging.kyrahealth.ai" "Staging" && ((healthy++)) || true
 ((total++))

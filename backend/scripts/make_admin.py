@@ -129,7 +129,7 @@ async def main():
             print("\n✅ User is now an admin!")
             print("   They can now access the analytics dashboard at:")
             print("   - Local: http://localhost:8501")
-            print("   - Production: https://kyrahealth.ai (if configured)")
+            print("   - Production: https://demo.kyrahealth.ai (if configured)")
         else:
             print("\n❌ Failed to make user admin. Check the error above.")
 
