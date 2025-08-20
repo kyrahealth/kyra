@@ -431,7 +431,7 @@ def format_response_with_sources(
             # Replace the Sources section with clearer attribution
             response = response.replace("Sources:", "**Sources (General Medical Knowledge - GPT-4o (Uses Internet for information)):**")
         else:
-            response += f"\n\n\n**Note:** This response is based on general medical knowledge (GPT-4o AI), not our internal knowledge base."
+            response += f"\n\n\n**Note:** This response is based on general medical knowledge (GPT-4o AI - which uses internet for information), not our internal knowledge base."
         
         return response, unique_gpt_sources if unique_gpt_sources else sources
 
