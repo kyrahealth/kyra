@@ -309,7 +309,7 @@ Blend these passages with your broader medical knowledge; do not rely on them
 exclusively.
 
 **IMPORTANT**: Since you are using specific retrieved information from Kyra's knowledge base, 
-always end your response with "Source: Kyra" before any other sources.
+do NOT add any source information to your response - the system will handle this automatically.
 """
     # ---------- Medical query but no RAG ----------
     elif is_medical:
@@ -365,17 +365,27 @@ def format_response_with_sources(
     """
     Format the response with appropriate source information
     """
+    print(f"[DEBUG] format_response_with_sources called with {len(sources)} sources")
+    print(f"[DEBUG] Sources: {sources}")
+    print(f"[DEBUG] Metadata: {metadata}")
+    
     if not metadata.get("is_medical", False):
         # Non-medical questions don't need source formatting
+        print(f"[DEBUG] Not medical, returning as-is")
         return response, sources
+    
+    # First, clean up any existing source sections that GPT-4o might have added
+    print(f"[DEBUG] Cleaning existing sources from response")
+    response = clean_existing_sources(response)
     
     if metadata.get("used_rag", False) and sources:
         # RAG was used - show NHS/Cancer Research sources in response text
         unique_sources = list(dict.fromkeys(sources))  # Remove duplicates while preserving order
+        print(f"[DEBUG] RAG used, {len(unique_sources)} unique sources after deduplication")
         
         # Add source section to response text
         if unique_sources:
-            response += f"\n\n**Source: Kyra**\n**Sources (Kyra's Knowledge Base):**\n"
+            response += f"\n\n**Sources (Kyra's Knowledge Base):**\n"
             for source in unique_sources:
                 if source.startswith('http://') or source.startswith('https://'):
                     # Make URLs clickable in markdown
@@ -391,49 +401,43 @@ def format_response_with_sources(
                 else:
                     response += f"- {source}\n"
         
+        print(f"[DEBUG] Final response length: {len(response)}")
         return response, unique_sources
     else:
-        # No RAG used - GPT-4o should have included general sources
-        gpt_sources = []
+        # No RAG used - add clear attribution for GPT-4o responses
+        print(f"[DEBUG] No RAG used, adding GPT-4o note")
+        response += f"\n\n**Note:** This response is based on general medical knowledge (GPT-4o AI - which uses internet for information), not our internal knowledge base."
         
-        # Try to extract sources from GPT-4o response and convert to clickable links
-        if "Sources:" in response or "sources:" in response.lower():
-            lines = response.split('\n')
-            in_sources = False
-            source_replacements = []
-            
-            for i, line in enumerate(lines):
-                line_stripped = line.strip()
-                if line_stripped.lower().startswith('sources:'):
-                    in_sources = True
-                    continue
-                if in_sources and line_stripped.startswith('-'):
-                    source_text = line_stripped[1:].strip()
-                    gpt_sources.append(source_text)
-                    
-                    # Try to convert text sources to clickable links
-                    clickable_link = convert_text_source_to_link(source_text)
-                    if clickable_link != source_text:
-                        # Replace the original line with a clickable link
-                        source_replacements.append((line, f"- {clickable_link}"))
-                elif in_sources and line_stripped and not line_stripped.startswith('-'):
-                    break
-            
-            # Apply source replacements to make them clickable
-            for old_line, new_line in source_replacements:
-                response = response.replace(old_line, new_line)
-        
-        # Remove duplicates from GPT-4o sources
-        unique_gpt_sources = list(dict.fromkeys(gpt_sources)) if gpt_sources else []
-        
-        # Add clear attribution for GPT-4o responses
-        if unique_gpt_sources:
-            # Replace the Sources section with clearer attribution
-            response = response.replace("Sources:", "**Sources (General Medical Knowledge - GPT-4o (Uses Internet for information)):**")
-        else:
-            response += f"\n\n\n**Note:** This response is based on general medical knowledge (GPT-4o AI - which uses internet for information), not our internal knowledge base."
-        
-        return response, unique_gpt_sources if unique_gpt_sources else sources
+        return response, sources
+
+def clean_existing_sources(response: str) -> str:
+    """
+    Clean up any existing source sections that GPT-4o might have added
+    """
+    print(f"[DEBUG] clean_existing_sources called with response length: {len(response)}")
+    
+    # Remove any "Source: Kyra" lines
+    lines = response.split('\n')
+    cleaned_lines = []
+    removed_count = 0
+    
+    for i, line in enumerate(lines):
+        line_stripped = line.strip()
+        # Skip lines that contain source information
+        if (line_stripped.lower().startswith('source:') or 
+            line_stripped.lower().startswith('sources:') or
+            line_stripped.startswith('**Source:') or
+            line_stripped.startswith('**Sources:') or
+            line_stripped.startswith('- ') and ('http' in line_stripped or 'www.' in line_stripped)):
+            print(f"[DEBUG] Removing line {i+1}: '{line_stripped}'")
+            removed_count += 1
+            continue
+        cleaned_lines.append(line)
+    
+    print(f"[DEBUG] Removed {removed_count} source-related lines")
+    print(f"[DEBUG] Cleaned response length: {len('\n'.join(cleaned_lines))}")
+    
+    return '\n'.join(cleaned_lines)
 
 def convert_text_source_to_link(source_text: str) -> str:
     """
